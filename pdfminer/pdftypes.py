@@ -23,7 +23,7 @@ LITERALS_ASCIIHEX_DECODE = (LIT('ASCIIHexDecode'), LIT('AHx'))
 LITERALS_RUNLENGTH_DECODE = (LIT('RunLengthDecode'), LIT('RL'))
 LITERALS_CCITTFAX_DECODE = (LIT('CCITTFaxDecode'), LIT('CCF'))
 LITERALS_DCT_DECODE = (LIT('DCTDecode'), LIT('DCT'))
-
+LITERALS_JPX_DECODE = (LIT('JPXDecode'), LIT('JPX'))
 
 ##  PDF Objects
 ##
@@ -260,9 +260,13 @@ class PDFStream(PDFObject):
                 data = rldecode(data)
             elif f in LITERALS_CCITTFAX_DECODE:
                 data = ccittfaxdecode(data, params)
+
+            # These are probably a JPG stream -
+            # it does not need to be decoded twice.
+            # Just return the stream to the user.
             elif f in LITERALS_DCT_DECODE:
-                # This is probably a JPG stream - it does not need to be decoded twice.
-                # Just return the stream to the user.
+                pass
+            elif f in LITERALS_JPX_DECODE:
                 pass
             elif f == LITERAL_CRYPT:
                 # not yet..
